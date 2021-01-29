@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Listar Lei</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <h:form id="formListLei">
+            <p:dataTable id="tabelaLei" value="#{lController.listarTodos()}" var="lei" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{lController.selecionar}"
+                         selectionMode="single" rowKey="#{lei.codigo}" >
+                <f:facet name="header">
+                    Lista de Lei
+                </f:facet>
+                <p:column headerText="ID">
+                    #{lei.codigo}
+                </p:column>
+                <p:column headerText="Capítulo">
+                    #{lei.capitulo}
+                </p:column>
+                <p:column headerText="Artigo">
+                    #{lei.artigo}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Tipo
+                    </f:facet>
+                    #{lei.tipo}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Descrição
+                    </f:facet>
+                    #{lei.descricao}
+                </p:column>
+            </p:dataTable><br/>
+            <p:commandButton value="Exibir" oncomplete="PF('widDialExibirLei').show()" update=":dialExibirLei"/>
+            <p:commandButton value="Alterar" action="alterarLei.xhtml"/>
+            <p:commandButton value="Deletar" action="#{lController.deletar()}" update=":formListLei:tabelaLei :gro">
+                <p:confirm message="Deseja deletar esta lei?"/>
+            </p:commandButton>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <p:dialog id="dialExibirLei" visible="false" resizable="false" closable="false" modal="true" 
+                  widgetVar="widDialExibirLei" >
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Código"/>
+                <p:outputLabel value="#{lController.selecionar.codigo}"/>
+
+                <p:outputLabel value="Capítulo"/>
+                <p:outputLabel value="#{lController.selecionar.capitulo}"/>
+
+                <p:outputLabel value="Artigo"/>
+                <p:outputLabel value="#{lController.selecionar.artigo}"/>
+
+                <p:outputLabel value="Tipo"/>
+                <p:outputLabel value="#{lController.selecionar.tipo}"/>
+
+                <p:outputLabel value="Descriçao"/>
+                <p:outputLabel value="#{lController.selecionar.descricao}"/>
+            </p:panelGrid>
+            <f:facet name="footer">
+                <p:separator/>
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('widDialExibirLei').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

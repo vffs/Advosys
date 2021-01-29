@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Lista de Processo</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <h:form id="formListProcesso">
+            <p:dataTable id="tabelaProcesso" value="#{ipController.listarTodos()}" var="processo" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{ipController.selecionar}"
+                         selectionMode="single" rowKey="#{processo.numero}" >
+                <f:facet name="header">
+                    Lista de processos
+                </f:facet>
+                <p:column headerText="ID">
+                    #{processo.numero}
+                </p:column>
+                <p:column headerText="Descrição">
+                    #{processo.descricao}
+                </p:column>
+                <p:column headerText="Instância Atual">
+                    #{processo.instanciaAtual}
+                </p:column>
+                <p:column headerText="Data Abertura">
+                    <h:outputText value="#{processo.dataAbertura}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Decisão Final
+                    </f:facet>
+                    #{processo.decisaoFinal}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Status
+                    </f:facet>
+                    <h:outputText rendered="#{processo.status == 0}" value="Em Aberto"/>
+                    <h:outputText rendered="#{processo.status == 1}" value="Em Andamento"/>
+                    <h:outputText rendered="#{processo.status == 2}" value="Deferido"/>
+                    <h:outputText rendered="#{processo.status == 3}" value="Encerrado"/>
+
+                </p:column>
+            </p:dataTable><br/>
+            <p:commandButton value="Exibir" oncomplete="PF('widDialExibirProcesso').show()" update=":dialExibiProcesso"/>
+            <p:commandButton value="Alterar" action="alterarProcesso.xhtml"/>
+            <p:commandButton value="Deletar" action="#{ipController.deletar()}" update=":formListProcesso:tabelaProcesso :gro">
+                <p:confirm message="Deseja deletar este Processo?"/>
+            </p:commandButton>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <p:dialog id="dialExibiProcesso" visible="false" resizable="false" closable="false" modal="true" 
+                  widgetVar="widDialExibirProcesso" >
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Código"/>
+                <p:outputLabel value="#{ipController.selecionar.numero}"/>
+
+                <p:outputLabel value="Descrição"/>
+                <p:outputLabel value="#{ipController.selecionar.descricao}"/>
+
+                <p:outputLabel value="Instância Atual"/>
+                <p:outputLabel value="#{ipController.selecionar.instanciaAtual}"/>
+
+                <p:outputLabel value="Data de abertura"/>
+                <h:outputText value="#{ipController.selecionar.dataAbertura}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+
+                <p:outputLabel value="Decisao Final"/>
+                <p:outputLabel value="#{ipController.selecionar.decisaoFinal}"/>
+
+                <p:outputLabel value="Status"/>
+                <p:outputLabel value="Em aberto" rendered="#{ipController.selecionar.status == 0}" /> 
+                <p:outputLabel value="Em andamento" rendered="#{ipController.selecionar.status == 1}" />
+                <p:outputLabel value="Deferido" rendered="#{ipController.selecionar.status == 2}" /> 
+                <p:outputLabel value="Indeferido" rendered="#{ipController.selecionar.status == 3}" /> 
+                <p:outputLabel value="Encerrado" rendered="#{ipController.selecionar.status == 4}" /> 
+            </p:panelGrid>
+            <f:facet name="footer">
+                <p:separator/>
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('widDialExibirProcesso').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

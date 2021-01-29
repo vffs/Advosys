@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formListHistorico">
+            <p:dataTable id="tabelaHistorico" value="#{hController.listarTodos()}" var="historico" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{hController.selecionar}"
+                         selectionMode="single" rowKey="#{historico.codigo}" >
+                <f:facet name="header">
+                    Histórico de processos
+                </f:facet>
+                <p:column headerText="ID">
+                    #{historico.codigo}
+                </p:column>
+                <p:column headerText="Status Anterior">
+                    <p:outputLabel value="Em aberto" rendered="#{historico.statusAnterior == 0}" /> 
+                    <p:outputLabel value="Em andamento" rendered="#{historico.statusAnterior == 1}" />
+                    <p:outputLabel value="Deferido" rendered="#{historico.statusAnterior == 2}" /> 
+                    <p:outputLabel value="Indeferido" rendered="#{historico.statusAnterior == 3}" /> 
+                    <p:outputLabel value="Encerrado" rendered="#{historico.statusAnterior == 4}" /> 
+
+                </p:column>
+                <p:column headerText="Descrição">
+                    #{historico.descricao}
+                </p:column>
+                <p:column headerText="Parecer">
+                    #{historico.parecer}
+                </p:column>
+                <p:column headerText="Data atualização">
+                    <h:outputText value="#{historico.dataHist}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable><br/>
+            <p:commandButton value="Exibir" oncomplete="PF('widDialExibirHistoricoProcesso').show()" update=":dialExibiHistoricoProcesso"/>
+            <p:commandButton value="Alterar" action="alterarHistorico.xhtml"/>
+            
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <p:dialog id="dialExibiHistoricoProcesso" visible="false" resizable="false" closable="false" modal="true" 
+                  widgetVar="widDialExibirHistoricoProcesso" >
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Código"/>
+                <p:outputLabel value="#{hController.selecionar.codigo}"/>
+
+                <p:outputLabel value="Descrição"/>
+                <p:outputLabel value="#{hController.selecionar.descricao}"/>
+
+                <p:outputLabel value="Instância Atual"/>
+                <p:outputLabel value="#{ipController.selecionar.instanciaAtual}"/>
+
+                <p:outputLabel value="Data da atualização"/>
+                <h:outputText value="#{hController.selecionar.dataHist}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+
+                <p:outputLabel value="Parecer"/>
+                <p:outputLabel value="#{hController.selecionar.parecer}"/>
+
+                <p:outputLabel value="Status"/>
+                <p:outputLabel value="Em aberto" rendered="#{hController.selecionar.statusAnterior == 0}" /> 
+                    <p:outputLabel value="Em andamento" rendered="#{hController.selecionar.statusAnterior == 1}" />
+                    <p:outputLabel value="Deferido" rendered="#{hController.selecionar.statusAnterior == 2}" /> 
+                    <p:outputLabel value="Indeferido" rendered="#{hController.selecionar.statusAnterior == 3}" /> 
+                    <p:outputLabel value="Encerrado" rendered="#{hController.selecionar.statusAnterior == 4}" /> 
+            </p:panelGrid>
+            <f:facet name="footer">
+                <p:separator/>
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('widDialExibirHistoricoProcesso').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Lista de advogados</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <h:form id="formList">
+            <p:dataTable id="tabelaExibirAdvogado" value="#{aController.listarTodos()}" var="advogado" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{aController.selecionar}"
+                         selectionMode="single" rowKey="#{advogado.codigo}" >
+                <f:facet name="header">
+                    Lista de advogados
+                </f:facet>
+                <p:column headerText="ID">
+                    #{advogado.codigo}
+                </p:column>
+                <p:column headerText="CPF">
+                    #{advogado.cpf}
+                </p:column>
+                <p:column headerText="Nome">
+                    #{advogado.nome}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        OAB
+                    </f:facet>
+                    #{advogado.oab}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Telefone
+                    </f:facet>
+                    #{advogado.telefone}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        Endereço
+                    </f:facet>
+                    #{advogado.endereco}
+                </p:column>
+            </p:dataTable><br/>
+            <p:commandButton value="Exibir" oncomplete="PF('widDialExibirAdvogado').show()"
+                             update=":dialExibirAdvogado" />
+            <p:commandButton value="Alterar" action="alterarAdvogado.xhtml"/>
+            <p:commandButton value="Deletar" action="#{aController.deletar()}" update=":formList:tabelaExibirAdvogado :gro" >
+                <p:confirm message="Deseja excluir este advogado?"/>
+            </p:commandButton>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <p:dialog id="dialExibirAdvogado" visible="false" resizable="false" closable="false" modal="true"
+                  widgetVar="widDialExibirAdvogado" >
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Código"/>
+                <p:outputLabel value="#{aController.selecionar.codigo}"/>
+
+                <p:outputLabel value="CPF"/>
+                <p:outputLabel value="#{aController.selecionar.cpf}"/>
+
+                <p:outputLabel value="Nome"/>
+                <p:outputLabel value="#{aController.selecionar.nome}"/>
+
+                <p:outputLabel value="OAB"/>
+                <p:outputLabel value="#{aController.selecionar.oab}"/>
+
+                <p:outputLabel value="Telefone"/>
+                <p:outputLabel value="#{aController.selecionar.telefone}"/>
+
+                <p:outputLabel value="Endereço"/>
+                <p:outputLabel value="#{aController.selecionar.endereco}"/>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:separator/>
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('widDialExibirAdvogado').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog> 
+        
+        
+    </h:body>
+</html>
+

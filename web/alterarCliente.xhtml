@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Alterar Cliente</title>
+    </h:head>
+    <h:body>
+         <ui:include src="menu.xhtml"/>
+
+        <h:form id="formClienteAlt">
+            <p:fieldset legend="Alterar dados de Cliente"><br/>
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Código"/>
+                    <p:outputLabel value="#{cController.selecionar.codigo}"/>
+                    <p:outputLabel/>
+
+                    <p:outputLabel value="CPF/CNPJJ"/>
+                    <p:inputText id="cCpfCnpj" value="#{cController.selecionar.cpfcnpj}" required="true" 
+                                 requiredMessage="o campo CPF é obrigatório"/>
+                    <p:message for="cCpfCnpj"/>
+
+                    <p:outputLabel value="Nome"/>
+                    <p:inputText id="cNome" value="#{cController.selecionar.nome}" required="true"
+                                 requiredMessage="O campo Nome é obrigatório" />
+                    <p:message for="cNome"/>
+
+                    <p:outputLabel value="Endereço"/>
+                    <p:inputText id="cEndereco" value="#{cController.selecionar.endereco}" required="true"
+                                 requiredMessage="O campo Endereço é obrigatório" />
+                    <p:message for="cEndereco"/>
+
+                    <p:outputLabel value="Telefone"/>
+                    <p:inputText id="cTelefone" value="#{cController.selecionar.telefone}" required="true" 
+                                 requiredMessage="O campo Telefone é obrigatório" />
+                    <p:message for="cTelefone"/>
+                </p:panelGrid><br/>
+                <p:commandButton value="Alterar" action="#{cController.alterar()}" update="@form">
+                    <p:confirm message="Deseja Alterar este advogado?"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+                </p:confirmDialog>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

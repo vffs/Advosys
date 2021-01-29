@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+         <ui:include src="menu.xhtml"/>
+        <h:form id="formProcessoAlt">
+            <p:fieldset legend="Alterar dados do histórico"><br/>
+
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Código"/>
+                    <p:outputLabel value="#{hController.selecionar.codigo}"/>
+                    <p:outputLabel/>
+
+                    <p:outputLabel value="Descrição"/>
+                    <p:inputText id="hDescricao" value="#{hController.selecionar.descricao}" required="true" 
+                                 requiredMessage="o campo descrição é obrigatório"/>
+                    <p:message for="hDescricao"/>
+
+                    <p:outputLabel value="Parecer"/>
+                    <p:inputText id="hParecer" value="#{hController.selecionar.parecer}" required="true"
+                                 requiredMessage="O campo Parecer é obrigatório" />
+                    <p:message for="hParecer"/>
+                    
+                    <p:outputLabel value="Status atual"/>
+                    <p:outputLabel value="Em aberto" rendered="#{hController.selecionar.statusAnterior == 0}" /> 
+                    <p:outputLabel value="Em andamento" rendered="#{hController.selecionar.statusAnterior == 1}" />
+                    <p:outputLabel value="Deferido" rendered="#{hController.selecionar.statusAnterior == 2}" /> 
+                    <p:outputLabel value="Indeferido" rendered="#{hController.selecionar.statusAnterior == 3}" /> 
+                    <p:outputLabel value="Encerrado" rendered="#{hController.selecionar.statusAnterior == 4}" /> 
+                    <p:outputLabel />                      
+                                                                            
+                </p:panelGrid><br/>
+                <p:commandButton value="Alterar" action="#{hController.alterar()}" update="@form">
+                    <p:confirm message="Deseja Alterar este Histórico ?"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+                </p:confirmDialog>
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

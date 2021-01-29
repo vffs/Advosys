@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cadastro Advogado</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formAdvogado">
+            <p:fieldset legend="Cadastro de Advogado"><br/>
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="CPF"/>
+                    <p:inputText id="adCpf" value="#{aController.cadastro.cpf}" required="true" 
+                                 requiredMessage="o campo CPF é obrigatório"/>
+                    <p:message for="adCpf"/>
+                    
+                    <p:outputLabel value="Nome"/>
+                    <p:inputText id="adNome" value="#{aController.cadastro.nome}" required="true"
+                                 requiredMessage="O campo Nome é obrigatório" />
+                    <p:message for="adNome"/>
+                    
+                    <p:outputLabel value="OAB"/>
+                    <p:inputText id="adOab" value="#{aController.cadastro.oab}" required="true"
+                                 requiredMessage="O campo OAB é obrigatório" />
+                    <p:message for="adOab"/>
+                    
+                    <p:outputLabel value="Endereço"/>
+                    <p:inputText id="aEndereco" value="#{aController.cadastro.endereco}" required="true"
+                                 requiredMessage="O campo Endereço é obrigatório" />
+                    <p:message for="aEndereco"/>
+                    
+                    <p:outputLabel value="Telefone"/>
+                    <p:inputText id="aTelefone" value="#{aController.cadastro.telefone}" required="true" 
+                                 requiredMessage="O campo Telefone é obrigatório" />
+                    <p:message for="aTelefone"/>
+                </p:panelGrid><br/>
+                <p:commandButton value="Cadastrar" action="#{aController.inserir()}" update="@form">
+                    <p:confirm message="Deseja cadastrar este advogado?"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+                </p:confirmDialog>
+            </p:fieldset>
+        </h:form>
+
+    </h:body>
+</html>
+

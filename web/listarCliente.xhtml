@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Listar Cliente</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <h:form id="formListCliente">
+            <p:dataTable id="tabelaCliente" value="#{cController.listarTodos()}" var="cliente" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{cController.selecionar}"
+                         selectionMode="single" rowKey="#{cliente.codigo}" >
+                <f:facet name="header">
+                    Lista de Cliente
+                </f:facet>
+                <p:column headerText="ID">
+                    #{cliente.codigo}
+                </p:column>
+                <p:column headerText="CPF/CNPJ">
+                    #{cliente.cpfcnpj}
+                </p:column>
+                <p:column headerText="Nome">
+                    #{cliente.nome}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Telefone
+                    </f:facet>
+                    #{cliente.telefone}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Endereço
+                    </f:facet>
+                    #{cliente.endereco}
+                </p:column>
+            </p:dataTable><br/>
+
+            <p:commandButton value="Exibir" oncomplete="PF('widDialExibirCliente').show()" update=":dialExibirCliente"/>
+            <p:commandButton value="Alterar" action="alterarCliente.xhtml"/>
+            <p:commandButton value="Deletar" action="#{cController.deletar()}" update=":formListCliente:tabelaCliente :gro">
+                <p:confirm message="Deseja deletar este cliente?"/>
+            </p:commandButton>
+            
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+            
+        </h:form>
+
+        <p:dialog   id="dialExibirCliente" visible="false" resizable="false" closable="false" modal="true" 
+                  widgetVar="widDialExibirCliente" >
+
+            <p:panelGrid  columns="2">
+                <p:outputLabel value="Código"/>
+                <p:outputLabel value="#{cController.selecionar.codigo}"/>
+
+                <p:outputLabel value="CPF/CNPJ"/>
+                <p:outputLabel value="#{cController.selecionar.cpfcnpj}"/>
+
+                <p:outputLabel value="Nome"/>
+                <p:outputLabel value="#{cController.selecionar.nome}"/>
+
+                <p:outputLabel value="Endereço"/>
+                <p:outputLabel value="#{cController.selecionar.endereco}"/>
+
+                <p:outputLabel value="Tefefone"/>
+                <p:outputLabel value="#{cController.selecionar.telefone}"/>
+            </p:panelGrid>
+            
+            <f:facet name="footer">
+                <p:separator/>
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('widDialExibirCliente').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

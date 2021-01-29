@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alterar Processo</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formProcessoAlt">
+            <p:fieldset legend="Alterar dados do Processo"><br/>
+
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Código"/>
+                    <p:outputLabel value="#{ipController.selecionar.numero}"/>
+                    <p:outputLabel/>
+
+                    <p:outputLabel value="Descrição"/>
+                    <p:inputText id="ipDescricao" value="#{ipController.selecionar.descricao}" required="true" 
+                                 requiredMessage="o campo descrição é obrigatório"/>
+                    <p:message for="ipDescricao"/>
+
+                    <p:outputLabel value="Instância Atual"/>
+                    <p:inputText id="ipInstanciaAtual" value="#{ipController.selecionar.instanciaAtual}" required="true"
+                                 requiredMessage="O campo Instancia atual é obrigatório" />
+                    <p:message for="ipInstanciaAtual"/>
+
+                    <p:outputLabel value="Data de abertura"/>
+                    <p:inputText id="ipDataAbertura" value="#{ipController.selecionar.dataAbertura}" required="true"
+                                 requiredMessage="O campo Data de abertura é obrigatório" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:inputText>
+                    <p:message for="ipDataAbertura"/>
+
+                    <p:outputLabel value="Decisão Final"/>
+                    <p:inputText id="ipDecisaoFinal" value="#{ipController.selecionar.decisaoFinal}" required="true"
+                                 requiredMessage="O campo Decisão Final é obrigatório" />
+                    <p:message for="ipDecisaoFinal"/>
+
+                    <p:outputLabel value="Status atual"/>
+                    <p:outputLabel value="Em aberto" rendered="#{ipController.selecionar.status == 0}" /> 
+                    <p:outputLabel value="Em andamento" rendered="#{ipController.selecionar.status == 1}" />
+                    <p:outputLabel value="Deferido" rendered="#{ipController.selecionar.status == 2}" /> 
+                    <p:outputLabel value="Indeferido" rendered="#{ipController.selecionar.status == 3}" /> 
+                    <p:outputLabel value="Encerrado" rendered="#{ipController.selecionar.status == 4}" /> 
+                    <p:outputLabel />
+
+                    <p:outputLabel value="Status"/>
+                    <p:selectOneMenu id="ipStatus" value="#{ipController.selecionar.status}" >
+                        <f:selectItem itemLabel="Select one" itemValue="" />
+                        <f:selectItem itemLabel="Em Andamento" itemValue="1" />
+                        <f:selectItem itemLabel="Deferido" itemValue="2" />
+                        <f:selectItem itemLabel="Indeferido" itemValue="3" />
+                        <f:selectItem itemLabel="Encerrado" itemValue="4" />
+                    </p:selectOneMenu>
+                    <p:message for="ipStatus"/>
+                    <p:outputLabel value="Descrição atualização"/>
+                    <p:inputText id="ipDescrAtual" value="#{descricao}" required="true" 
+                                 requiredMessage="o Campo descrição da atualização é obrigátorio" />
+                    <p:message for="ipDescrAtual"/>
+
+                    <p:outputLabel value="Parecer"/>
+                    <p:inputText id="ipParecer" value="#{parecer}" required="true" 
+                                 requiredMessage="o Campo parecer é obrigátorio"/>
+                    <p:message for="ipParecer"/>
+                                                           
+                </p:panelGrid><br/>
+                <p:commandButton value="Alterar" action="#{ipController.alterar(descricao,parecer)}" update="@form">
+                    <p:confirm message="Deseja Alterar este Processo ?"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="Não" styleClass="ui-confirmdialog-no"/>
+                </p:confirmDialog>
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

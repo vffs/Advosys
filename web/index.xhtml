@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <h:form id="formListProcessoAberto">
+            <p:dataTable id="tabelaProcessoAberto" value="#{ipController.listarTodos()}" var="processo" rows="6" paginator="true"
+                         emptyMessage="Não há valores para exibir" selection="#{ipController.selecionar}"
+                         selectionMode="single" rowKey="#{processo.numero}" >
+
+                <f:facet name="header">
+                    Lista de processos em aberto
+                </f:facet>
+                <p:column headerText="ID">
+                    <h:outputText value="#{processo.numero}" rendered="#{processo.status == 0}"/>
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{processo.descricao}" rendered="#{processo.status == 0}"/>                    
+                </p:column>
+                <p:column headerText="Instância Atual">
+                    <h:outputText value="#{processo.instanciaAtual}" rendered="#{processo.status == 0}"/>                  
+                </p:column>
+                
+                <p:column headerText="Data Abertura">
+                    <h:outputText value="#{processo.dataAbertura}" rendered="#{processo.status == 0}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Decisão Final
+                    </f:facet>
+                    <h:outputText value="#{processo.decisaoFinal}" rendered="#{processo.status == 0}"/>  
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Status
+                    </f:facet>
+                    <h:outputText rendered="#{processo.status == 0}" value="Em Aberto"/>
+
+                </p:column>
+            </p:dataTable><br/>
+        </h:form>
+    </h:body>
+</html>
+
